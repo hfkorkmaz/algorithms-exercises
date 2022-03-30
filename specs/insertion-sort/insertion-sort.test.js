@@ -13,13 +13,31 @@
   And you put xdescribe instead of describe if you want to suspend running the unit tests.  
 */
 
+Array.prototype.move = function (from, to) {
+  this.splice(to, 0, this.splice(from, 1)[0]);
+  return this;
+};
+
+
 function insertionSort(nums) {
-  // code goes here
+  for (let i = 1; i < nums.length; i++) {
+    const element = nums[i];
+    let selectedIndex = i;
+    for (let j = i - 1; j >= 0; j--) {
+      if (element < nums[j]) {
+        selectedIndex = j;
+      }
+    }
+    if (selectedIndex !== i) {
+      nums.move(i, selectedIndex);
+    }
+  }
+  return nums;
 }
 
 // unit tests
 // do not modify the below code
-test.skip("insertion sort", function () {
+test("insertion sort", function () {
   const nums = [10, 5, 3, 8, 2, 6, 4, 7, 9, 1];
   insertionSort(nums);
   expect(nums).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
