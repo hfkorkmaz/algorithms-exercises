@@ -7,48 +7,25 @@
 */
 
 const merge = (arr1, arr2) => {
-  const nums1 = [...arr1];
-  const nums2 = [...arr2];
+  const sortedArr = [];
 
-  let sortedArr = [];
-
-  const alreadyAddedElementsIndexesOfSecondArray = [];
-
-  for (let index1 = 0; index1 < arr1.length; index1++) {
-    const element1 = arr1[index1];
-
-    for (let index2 = 0; index2 < arr2.length; index2++) {
-      const element2 = arr2[index2];
-
-      if (element1 < element2) {
-        sortedArr.push(element1);
-        nums1.shift();
-        break;
-      } else if (
-        alreadyAddedElementsIndexesOfSecondArray.findIndex(
-          (el) => el === index2
-        ) === -1
-      ) {
-        sortedArr.push(element2);
-        alreadyAddedElementsIndexesOfSecondArray.push(index2);
-        nums2.shift();
-      }
+  while (arr1.length && arr2.length) {
+    if (arr1[0] <= arr2[0]) {
+      sortedArr.push(arr1.shift());
+    } else {
+      sortedArr.push(arr2.shift());
     }
   }
-  if (nums1.length) {
-    sortedArr = [...sortedArr, ...nums1];
-  }
-  if (nums2.length) {
-    sortedArr = [...sortedArr, ...nums2];
-  }
 
-  return sortedArr;
+  return sortedArr.concat(arr1, arr2);
 };
 
 const mergeSort = (nums) => {
-  if (nums.length === 1) return nums;
-  const firstHalf = nums.slice(0, Math.ceil(nums.length / 2));
-  const secondHalf = nums.slice(Math.ceil(nums.length / 2), nums.length);
+  if (nums.length < 2) return nums;
+
+  const middlePoint = Math.ceil(nums.length / 2);
+  const firstHalf = nums.slice(0, middlePoint);
+  const secondHalf = nums.slice(middlePoint);
 
   return merge(mergeSort(firstHalf), mergeSort(secondHalf));
 };
