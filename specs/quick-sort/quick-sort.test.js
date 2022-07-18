@@ -14,11 +14,22 @@
 
 function quickSort(nums) {
   // code goes here
+
+  if (nums.length < 2) return nums;
+
+  const pivot = nums[nums.length - 1];
+
+  const numsWithoutPivot = nums.filter((_, index) => index !== nums.length - 1);
+
+  const left = numsWithoutPivot.filter((num) => num <= pivot);
+  const right = numsWithoutPivot.filter((num) => num >= pivot);
+
+  return [...quickSort(left), pivot, ...quickSort(right)];
 }
 
 // unit tests
 // do not modify the below code
-test.skip("quickSort", function () {
+test("quickSort", function () {
   const input = [10, 8, 2, 1, 6, 3, 9, 4, 7, 5];
   const answer = quickSort(input);
 
